@@ -21,7 +21,10 @@ RSpec.describe FileDownloadStat, type: :model do
     end
     context "when a profile is available" do
       let(:views) { double }
-      let(:profile) { double(hyrax__download: views) }
+      let(:profile) { double }
+      before do
+        allow(Hyrax::Download).to receive(:results).and_return(views)
+      end
       it "calls the Legato method with the correct path" do
         expect(views).to receive(:for_file).with(99)
         described_class.ga_statistics(start_date, file)
